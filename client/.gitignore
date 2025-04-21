@@ -7,11 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-#environment files
-.env
-.env.development
-.env.test
-.env.production
+
 
 node_modules
 dist
