@@ -9,8 +9,8 @@ connectDB();
 
 const seedAdmin = async () => {
   try {
-    const email = "rjravi7408563153@gmail.com";
-    const password = "Ravi@123";
+    const email = "your@gmail.com";
+    const password = "yourpassword";
 
     const adminExists = await Admin.findOne({ email });
 
