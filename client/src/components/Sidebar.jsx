@@ -43,8 +43,7 @@ const Sidebar = () => {
         <button
           onClick={() => {
             localStorage.removeItem("token");
-            window.location.href =
-              "https://vibescriptblog.netlify.app/admin/login";
+            window.location.href = "/admin/login";
           }}
           className="w-full flex items-center gap-3 px-4 py-2 text-red-600 hover:bg-red-100 rounded-lg transition duration-200 mt-10"
         >
