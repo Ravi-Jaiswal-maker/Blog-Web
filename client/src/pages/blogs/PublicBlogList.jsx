@@ -96,7 +96,7 @@ const PublicBlogList = () => {
         {blogs.map((blog) => (
           <div
             key={blog._id}
-            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 hover:-translate-y-1"
+            className="bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-500 ease-in-out hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02]"
           >
             {blog.image?.url && (
               <div className="relative h-48 overflow-hidden">
