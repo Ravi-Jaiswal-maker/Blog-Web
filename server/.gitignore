@@ -2,7 +2,7 @@
 node_modules/
 
 #seeder files
-seedAdmin.js
+server/seedAdmin.js
 
 # Logs
 logs/
