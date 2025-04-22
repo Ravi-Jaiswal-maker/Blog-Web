@@ -42,93 +42,96 @@ const Dashboard = () => {
   }, []);
 
   if (loading) {
-    return <div className="text-center py-10">Loading dashboard...</div>;
+    return <div className="text-center py-6 text-sm">Loading dashboard...</div>;
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+    <div className="p-3 space-y-5 max-w-full overflow-x-hidden">
+      {/* Header */}
+      <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
+        <h1 className="text-base sm:text-lg font-semibold">Dashboard</h1>
         <Link
           to="/admin/blogs/create"
-          className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+          className="bg-indigo-600 text-white text-xs px-3 py-1.5 rounded hover:bg-indigo-700 transition"
         >
           ➕ Create Blog
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white p-4 rounded-xl shadow">
-          <p className="text-gray-600">Total Blogs</p>
-          <h2 className="text-2xl font-bold">{stats.totalBlogs}</h2>
+      {/* Stats */}
+      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-3">
+        <div className="bg-white p-4 rounded-md border shadow-sm overflow-hidden max-h-[200px]">
+          <p className="text-gray-500 text-xs">Total Blogs</p>
+          <h2 className="text-base font-semibold">{stats.totalBlogs}</h2>
         </div>
-        <div className="bg-white p-4 rounded-xl shadow">
-          <p className="text-gray-600">Total Views</p>
-          <h2 className="text-2xl font-bold">{stats.totalViews}</h2>
+        <div className="bg-white p-4 rounded-md border shadow-sm overflow-hidden max-h-[200px]">
+          <p className="text-gray-500 text-xs">Total Views</p>
+          <h2 className="text-base font-semibold">{stats.totalViews}</h2>
         </div>
       </div>
 
-      {/* Monthly Chart */}
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-lg font-semibold mb-4">Monthly Blog Creation</h2>
+      {/* Chart */}
+      <div className="bg-white p-4 rounded-md border shadow-sm overflow-hidden max-h-[300px]">
+        <h2 className="text-sm font-medium mb-2">Monthly Blog Creation</h2>
         {stats.monthlyData.length > 0 ? (
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={stats.monthlyData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="count" fill="#6366f1" />
-            </BarChart>
-          </ResponsiveContainer>
+          <div className="w-full h-[180px] sm:h-[220px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={stats.monthlyData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" fontSize={10} />
+                <YAxis fontSize={10} />
+                <Tooltip />
+                <Bar dataKey="count" fill="#4f46e5" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         ) : (
-          <p className="text-gray-500 text-sm">No chart data available.</p>
+          <p className="text-gray-400 text-xs">No chart data available.</p>
         )}
       </div>
 
       {/* Latest Blogs */}
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-lg font-semibold mb-4">Latest Blogs</h2>
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead>
-            <tr>
-              <th className="text-left px-4 py-2">Title</th>
-              <th className="text-left px-4 py-2">Status</th>
-              <th className="text-left px-4 py-2">Date</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {Array.isArray(stats.latestBlogs) &&
-            stats.latestBlogs.length > 0 ? (
-              stats.latestBlogs.map((blog) => (
-                <tr key={blog._id} className="hover:bg-gray-50 transition">
-                  <td className="px-4 py-3 text-sm font-semibold text-gray-900">
-                    {blog.title}
-                  </td>
-                  <td className="px-4 py-3 text-sm capitalize text-gray-700">
-                    {blog.status}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-500">
-                    {new Date(blog.createdAt).toLocaleDateString(undefined, {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
+      <div className="bg-white p-4 rounded-md border shadow-sm overflow-hidden max-h-[300px]">
+        <h2 className="text-sm font-medium mb-2">Latest Blogs</h2>
+        <div className="w-full overflow-auto">
+          <table className="w-full text-xs text-left whitespace-nowrap">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-3 py-2">Title</th>
+                <th className="px-3 py-2">Status</th>
+                <th className="px-3 py-2">Date</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y">
+              {stats.latestBlogs.length > 0 ? (
+                stats.latestBlogs.map((blog) => (
+                  <tr key={blog._id} className="hover:bg-gray-50">
+                    <td className="px-3 py-2 max-w-[150px] truncate font-medium">
+                      {blog.title}
+                    </td>
+                    <td className="px-3 py-2 capitalize">{blog.status}</td>
+                    <td className="px-3 py-2 text-gray-500">
+                      {new Date(blog.createdAt).toLocaleDateString(undefined, {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="3"
+                    className="px-3 py-4 text-center text-gray-400"
+                  >
+                    No blog posts found.
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan="3"
-                  className="px-4 py-6 text-center text-sm text-gray-500"
-                >
-                  No blog posts found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
