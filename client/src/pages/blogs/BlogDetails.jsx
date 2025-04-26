@@ -9,7 +9,6 @@ const BlogDetail = () => {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Function to fetch blog data
   const fetchBlog = async () => {
     try {
       const res = await api.get(`/api/blogs/${slug}`);
@@ -21,7 +20,6 @@ const BlogDetail = () => {
     }
   };
 
-  // Function to increment view count when the blog is viewed
   const incrementViewCount = async () => {
     try {
       await api.put(`/api/blogs/${slug}/view`);
@@ -32,7 +30,7 @@ const BlogDetail = () => {
 
   useEffect(() => {
     fetchBlog();
-    incrementViewCount(); // Increment view count when the blog page is loaded
+    incrementViewCount();
   }, [slug]);
 
   if (loading) {
@@ -52,49 +50,52 @@ const BlogDetail = () => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12 space-y-10">
-      <div className="space-y-4 text-center">
-        <h1 className="text-5xl font-extrabold text-gray-900">{blog.title}</h1>
-        <p className="text-lg text-gray-600">
-          Published on{" "}
-          <span className="font-medium">
-            {format(new Date(blog.createdAt), "PPP")}
-          </span>{" "}
-          by{" "}
-          <span className="text-indigo-600 font-semibold">
-            {blog.createdBy}
-          </span>
-        </p>
-        <p className="text-sm text-gray-500">Views: {blog.views}</p>{" "}
-        {/* Show views count */}
-      </div>
+    <div className="animated-dots-bg min-h-screen">
+      <div className="max-w-5xl mx-auto px-6 py-12 space-y-10">
+        <div className="space-y-4 text-center">
+          <h1 className="text-5xl font-extrabold text-gray-900">
+            {blog.title}
+          </h1>
+          <p className="text-lg text-gray-600">
+            Published on{" "}
+            <span className="font-medium">
+              {format(new Date(blog.createdAt), "PPP")}
+            </span>{" "}
+            by{" "}
+            <span className="text-indigo-600 font-semibold">
+              {blog.createdBy}
+            </span>
+          </p>
+          <p className="text-sm text-gray-500">Views: {blog.views}</p>{" "}
+        </div>
 
-      {blog.image?.url && (
-        <div className="rounded-xl overflow-hidden shadow-lg">
-          <img
-            src={blog.image.url}
-            alt={blog.title}
-            className="w-full h-96 object-cover transition-transform duration-300 transform hover:scale-105"
+        {blog.image?.url && (
+          <div className="rounded-xl overflow-hidden shadow-lg">
+            <img
+              src={blog.image.url}
+              alt={blog.title}
+              className="w-full h-96 object-cover transition-transform duration-300 transform hover:scale-105"
+            />
+          </div>
+        )}
+
+        <div className="bg-white shadow-lg rounded-xl p-8 mt-8">
+          <div
+            className="prose max-w-none prose-indigo dark:prose-invert"
+            dangerouslySetInnerHTML={{
+              __html: blog.content,
+            }}
           />
         </div>
-      )}
 
-      <div className="bg-white shadow-lg rounded-xl p-8 mt-8">
-        <div
-          className="prose max-w-none prose-indigo dark:prose-invert"
-          dangerouslySetInnerHTML={{
-            __html: blog.content,
-          }}
-        />
-      </div>
-
-      <div className="flex justify-center mt-8">
-        <a
-          href="/"
-          className="inline-block px-6 py-3 bg-indigo-600 text-white rounded-lg text-lg font-semibold hover:bg-indigo-700 transition-colors duration-300"
-        >
-          Back to Blogs
-        </a>
+        <div className="flex justify-center mt-8">
+          <a
+            href="/"
+            className="inline-block px-6 py-3 bg-indigo-600 text-white rounded-lg text-lg font-semibold hover:bg-indigo-700 transition-colors duration-300"
+          >
+            Back to Blogs
+          </a>
+        </div>
       </div>
     </div>
   );

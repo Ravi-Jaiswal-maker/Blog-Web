@@ -15,3 +15,18 @@
 .ProseMirror p {
   margin: 0;
 }
+
+@keyframes moveDots {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+
+.animated-dots-bg {
+  background-image: radial-gradient(circle, #5580d7 1px, transparent 1px);
+  background-size: 20px 20px;
+  animation: moveDots 12s linear infinite;
+}
